@@ -1,0 +1,15 @@
+
+<div class="relative grid grid-cols-1 gap-4 p-4 mb-4 border rounded-lg bg-white shadow-sm">
+  <div class="flex flex-row">
+    <p class="relative whitespace-nowrap truncate overflow-hidden">
+      <span class="font-bold text-lg">@<%= comment.user.username %></span> said: <%= comment.body %>
+    </p>
+    <a class="text-gray-500 text-xl" href="#"><i class="fa-solid fa-trash"></i></a>
+  </div>
+    <p class="text-gray-400 text-sm"><%= comment.created_at.to_date %></p>
+  <div class="ml-4">
+  <p><%= render comment.comments %></p>
+</div>
+</div>
+
+
