@@ -1,15 +1,25 @@
-
 <div class="relative grid grid-cols-1 gap-4 p-4 mb-4 border rounded-lg bg-white shadow-sm">
   <div class="flex flex-row">
     <p class="relative whitespace-nowrap truncate overflow-hidden">
-      <span class="font-bold text-lg">@<%= comment.user.username %></span> said: <%= comment.body %>
+      <span class="font-bold text-lg">@<%= comment.user.username %></span>
+      said:
+      <%= comment.body %>
     </p>
     <a class="text-gray-500 text-xl" href="#"><i class="fa-solid fa-trash"></i></a>
+    <div data-controller="comments" data-comments-visible-class="comments--visible" data-comments-hidden-class="comments--hidden">
+      <button id="edit-button" data-action="click->comments#showEditForm" class="btn bg-gray-100">Edit</button>
+      <%# TODO[Jose]: make form appear on edit press %>
+      <div hidden data-comments-target="editForm" class="comments">
+        <%= render 'comments/form', comment: comment %>
+      </div>
+    </div>
+    <div class="inline-block ml-2">
+      <%= button_to "Destroy", comment_path(comment), method: :delete, class: "btn bg-red-100" %>
+    </div>
   </div>
-    <p class="text-gray-400 text-sm"><%= comment.created_at.to_date %></p>
+  <p class="text-gray-400 text-sm"><%= comment.created_at.to_date %></p>
   <div class="ml-4">
-  <p><%= render comment.comments %></p>
-</div>
-</div>
+    <p><%= render comment.comments %></p>
+  </div>
 
-
+</div>
