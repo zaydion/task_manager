@@ -7,5 +7,5 @@ Rails.application.routes.draw do
   resources :tasks
   post "/tasks/:id/toggle", to: "tasks#toggle"
 
-  resources :comments, only: [:update, :destroy]
+  resources :comments, only: [:create, :update, :destroy]
 end

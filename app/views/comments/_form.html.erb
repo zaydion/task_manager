@@ -1,7 +1,12 @@
-<%= form_with(model: comment, method: :put, id:"edit-comment-form", class: "mb-7") do |form| %>
+<%= form_for(comment, method: action, id: "comment-form", class: "mb-7") do |form| %>
   <div class="mb-5">
+    <%= form.hidden_field :user_id, value: comment.user_id %>
+    <%= form.hidden_field :commentable_id, value: comment.commentable_id %>
+    <%= form.hidden_field :commentable_type, value: comment.commentable_type %>
+    <%= form.hidden_field :origin_id, value: comment.origin_id %>
+    <%= form.hidden_field :origin_type, value: comment.origin_type %>
     <%= form.text_field :body, placeholder: "Add new comment", class: "inline-block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-96" %>
     <%= form.submit "Save", class: "btn py-2 ml-2 bg-blue-600 text-white" %>
-  <%= button_tag "Cancel", data: { action: "comments#hideEditForm" }, class: "btn py-2 ml-2", type: :reset %>
+    <%= button_tag "Cancel", data: { action: "comments#hideCommentForm" }, class: "btn py-2 ml-2" %>
   </div>
 <% end %>

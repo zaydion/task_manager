@@ -6,11 +6,10 @@
       <%= comment.body %>
     </p>
     <a class="text-gray-500 text-xl" href="#"><i class="fa-solid fa-trash"></i></a>
-    <div data-controller="comments" data-comments-visible-class="comments--visible" data-comments-hidden-class="comments--hidden">
-      <button id="edit-button" data-action="click->comments#showEditForm" class="btn bg-gray-100">Edit</button>
-      <%# TODO[Jose]: make form appear on edit press %>
-      <div hidden data-comments-target="editForm" class="comments">
-        <%= render 'comments/form', comment: comment %>
+    <div data-controller="comments" data-comments-index-value="<%= comment.id %>">
+      <button id="edit-button" data-action="click->comments#showCommentForm" class="btn bg-gray-100">Edit</button>
+      <div hidden id="comment-form-container-<%= comment.id %>" data-comments-target="commentForm" class="comments">
+        <%= render partial: 'comments/form', locals: { path: comment_path(comment), action: :put, comment: comment } %>
       </div>
     </div>
     <div class="inline-block ml-2">

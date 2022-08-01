@@ -11,6 +11,10 @@
 <div class="block">
   <p>leave a comment?</p>
 </div>
+<div>
+<%# TODO[Jose]: fix this, create currnt_user concept %>
+    <%= render partial: 'comments/form', locals: { path: comments_path, action: :post, comment: Comment.new(commentable_id: @task.id, commentable_type: 'Task', origin_id: @task.id, origin_type: 'Task', user_id: User.first.id) } %>
+</div>
 
 <h2>Comments:</h2>
 <div>

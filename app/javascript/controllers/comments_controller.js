@@ -1,13 +1,21 @@
 import { Controller } from '@hotwired/stimulus'
 
 export default class extends Controller {
-  static targets = ['editForm']
+  static targets = ['commentForm']
+  static values = { index: Number }
 
-  showEditForm() {
-    this.editFormTarget.hidden = false
+  showCommentForm() {
+    const element = document.getElementById(
+      `comment-form-container-${this.indexValue}`
+    )
+    element.hidden = false
   }
 
-  hideEditForm() {
-    this.editFormTarget.hidden = true
+  hideCommentForm(e) {
+    e.preventDefault()
+    const element = document.getElementById(
+      `comment-form-container-${this.indexValue}`
+    )
+    element.hidden = true
   }
 }
