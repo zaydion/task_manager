@@ -1,4 +1,4 @@
-<div class="relative grid grid-cols-1 gap-4 p-4 mb-4 border rounded-lg bg-white shadow-sm">
+<div data-controller="comments" class="relative grid grid-cols-1 gap-4 p-4 mb-4 border rounded-lg bg-white shadow-sm">
   <div class="flex flex-row">
     <p class="relative whitespace-nowrap truncate overflow-hidden">
       <span class="font-bold text-lg">@<%= comment.user.username %></span>
@@ -6,16 +6,25 @@
       <%= comment.body %>
     </p>
     <a class="text-gray-500 text-xl" href="#"><i class="fa-solid fa-trash"></i></a>
-    <div data-controller="comments" data-comments-index-value="<%= comment.id %>">
-      <button id="edit-button" data-action="click->comments#showCommentForm" class="btn bg-gray-100">Edit</button>
-      <div hidden id="comment-form-container-<%= comment.id %>" data-comments-target="commentForm" class="comments">
+
+    <div>
+      <button data-action="click->comments#showEditCommentForm" class="btn bg-gray-100">Edit</button>
+      <div hidden data-comments-target="editCommentForm commentForm">
         <%= render partial: 'comments/form', locals: { path: comment_path(comment), action: :put, comment: comment } %>
       </div>
+
     </div>
+
     <div class="inline-block ml-2">
       <%= button_to "Destroy", comment_path(comment), method: :delete, class: "btn bg-red-100" %>
     </div>
   </div>
+
+  <span data-action="click->comments#showNewCommentForm" class="btn bg-gray-100">Add Comment...</span>
+  <div hidden data-comments-target="newCommentForm commentForm">
+    <%= render partial: 'comments/form', locals: { path: comments_path, action: :post, comment: Comment.new(commentable_id: comment.id, commentable_type: 'Comment' ) } %>
+  </div>
+
   <p class="text-gray-400 text-sm"><%= comment.created_at.to_date %></p>
   <div class="ml-4">
     <p><%= render comment.comments %></p>

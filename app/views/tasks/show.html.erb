@@ -13,7 +13,7 @@
 </div>
 <div>
 <%# TODO[Jose]: fix this, create currnt_user concept %>
-    <%= render partial: 'comments/form', locals: { path: comments_path, action: :post, comment: Comment.new(commentable_id: @task.id, commentable_type: 'Task', origin_id: @task.id, origin_type: 'Task', user_id: User.first.id) } %>
+    <%= render partial: 'comments/form', locals: { path: comments_path, action: :post, comment: Comment.new(commentable_id: @task.id, commentable_type: 'Task' ) } %>
 </div>
 
 <h2>Comments:</h2>

@@ -3,12 +3,20 @@ class CommentsController < ApplicationController
 
   def create
     @comment = Comment.new(comment_params)
+    @comment.user = User.first # TODO[Jose]: make current_user
+    if @comment.commentable.class.to_s == "Comment"
+      @comment.origin_id = @comment.commentable.origin_id
+      @comment.origin_type = @comment.commentable.origin_type
+    elsif @comment.commentable.class.to_s == "Task"
+      @comment.origin_id = @comment.commentable.id
+      @comment.origin_type = @comment.commentable.class.to_s
+    end
 
     respond_to do |format|
       if @comment.save
-        format.html { redirect_to task_path(@comment.commentable_id), notice: "Comment successfully added" }
+        format.html { redirect_to task_path(@comment.origin_id), notice: "Comment successfully added" }
       else
-        format.html { redirect_to task_path(@comment.commentable_id), notice: "Comment was not successfully added" }
+        format.html { redirect_to task_path(@comment.origin_id), notice: "Comment was not successfully added" }
       end
     end
   end
@@ -16,34 +24,22 @@ class CommentsController < ApplicationController
   def update
     respond_to do |format|
       if @comment.update(comment_params)
-        if @comment.commentable_type == "Task"
-          format.html { redirect_to task_path(@comment.commentable_id), notice: "Comment successfully updated" }
-        elsif @comment.commentable_type == "Comment"
-          format.html { redirect_to task_path(@comment.origin_id), notice: "Comment commentated on successfully" }
-        end
+        format.html { redirect_to task_path(@comment.origin_id), notice: "Comment on Task successfully updated" }
       else
-        if @comment.commentable_type == "Task"
-          format.html { redirect_to task_path(@comment.commentable_id), notice: "Comment was not successfully updated" }
-        elsif @comment.commentable_type == "Comment"
-          format.html { redirect_to task_path(@comment.origin_id), notice: "Comment NOT commentated on successfully" }
-        end
+        format.html { redirect_to task_path(@comment.origin_id), notice: "Comment was not successfully updated" }
       end
     end
   end
 
   def destroy
     @comment.destroy
-    if @comment.commentable_type == "Task"
-      redirect_to task_path(@comment.commentable_id), notice: "Comment successfully deleted"
-    elsif @comment.commentable_type == "Comment"
-      format.html { redirect_to task_path(@comment.origin_id), notice: "Comment NOT commentated on successfully" }
-    end
+    redirect_to task_path(@comment.origin_id), notice: "Comment successfully deleted"
   end
 
   private
 
   def comment_params
-    params.require(:comment).permit(:id, :body, :user_id, :commentable_id, :commentable_type, :origin_id, :origin_type)
+    params.require(:comment).permit(:id, :body, :commentable_id, :commentable_type)
   end
 
   def set_comment
