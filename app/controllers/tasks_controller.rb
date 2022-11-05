@@ -11,6 +11,7 @@ class TasksController < ApplicationController
 
   def create
     @task = Task.new(task_params)
+    @task.user = User.first # TODO[Jose]: make current_user
 
     respond_to do |format|
       if @task.save

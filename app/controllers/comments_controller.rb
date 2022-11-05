@@ -4,12 +4,14 @@ class CommentsController < ApplicationController
   def create
     @comment = Comment.new(comment_params)
     @comment.user = User.first # TODO[Jose]: make current_user
-    if @comment.commentable.class.to_s == "Comment"
+
+    class_name = @comment.commentable.class.to_s
+    if class_name == "Comment"
       @comment.origin_id = @comment.commentable.origin_id
       @comment.origin_type = @comment.commentable.origin_type
-    elsif @comment.commentable.class.to_s == "Task"
+    elsif class_name == "Task"
       @comment.origin_id = @comment.commentable.id
-      @comment.origin_type = @comment.commentable.class.to_s
+      @comment.origin_type = class_name
     end
 
     respond_to do |format|
