@@ -1,11 +1,15 @@
 Rails.application.routes.draw do
-  resources :tasks
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Defines the root path route ("/")
   root "tasks#index"
-  resources :tasks
+
   post "/tasks/:id/toggle", to: "tasks#toggle"
 
   resources :comments, only: [:create, :update, :destroy]
+
+  resource :session, only: [:new, :create, :destroy]
+  get "signin" => "sessions#new"
+  get "signout" => "sessions#destroy"
+
+  resources :tasks
+
+  resources :users
 end
